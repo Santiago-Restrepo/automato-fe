@@ -33,9 +33,6 @@ export const StepList: FC<{
       />
     );
   }, []);
-
-  console.log(steps);
-
   return (
     <>
       <DndProvider backend={HTML5Backend}>
