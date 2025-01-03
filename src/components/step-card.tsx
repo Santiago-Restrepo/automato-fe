@@ -1,13 +1,15 @@
+import { Button, Card, CardContent, CardOverflow, Typography } from "@mui/joy";
 import type { Identifier, XYCoord } from "dnd-core";
-import type { FC } from "react";
+import type { FC, MouseEventHandler } from "react";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-
+import EditIcon from "@mui/icons-material/Edit";
 export interface StepCardProps {
   id: number;
   text?: string | null;
   index: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
+  onClick: MouseEventHandler<HTMLAnchorElement> | undefined;
 }
 
 interface DragItem {
@@ -20,13 +22,16 @@ export const ItemTypes = {
   CARD: "card",
 };
 
-export const StepCard: FC<StepCardProps> = ({ id, text, index, moveCard }) => {
+export const StepCard: FC<StepCardProps> = ({
+  id,
+  text,
+  index,
+  moveCard,
+  onClick,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.CARD,
     collect(monitor) {
       return {
@@ -82,30 +87,52 @@ export const StepCard: FC<StepCardProps> = ({ id, text, index, moveCard }) => {
       item.index = hoverIndex;
     },
   });
-
-  const [{ isDragging }, drag] = useDrag({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_2, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
       return { id, index };
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
-  const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
-    <div
+    <Card
       ref={ref}
-      className="w-4/12 p-6 mx-auto my-5 text-white bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 hover:cursor-move dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-      style={{ opacity }}
-      data-handler-id={handlerId}
+      orientation="horizontal"
+      variant="outlined"
+      sx={{ mb: 1, cursor: "grab" }}
     >
-      <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        Step {id}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">{text}</p>
-    </div>
+      <CardContent>
+        <Typography textColor="success.darkChannel" sx={{ fontWeight: "md" }}>
+          Step {id}
+        </Typography>
+        <Typography level="body-sm">{text}</Typography>
+      </CardContent>
+      <Button onClick={onClick} variant="soft" size="sm">
+        <EditIcon />
+      </Button>
+      <CardOverflow
+        variant="soft"
+        color="warning"
+        sx={{
+          px: 0.2,
+          writingMode: "vertical-rl",
+          justifyContent: "center",
+          fontSize: "xs",
+          fontWeight: "xl",
+          letterSpacing: "1px",
+          textTransform: "uppercase",
+          borderLeft: "1px solid",
+          borderColor: "divider",
+        }}
+      >
+        {index}
+      </CardOverflow>
+    </Card>
   );
 };

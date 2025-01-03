@@ -1,4 +1,5 @@
 "use client";
+import { Providers } from "@/layers/providers";
 import "./globals.css";
 import DrawerHeader from "@/components/drawer-header";
 
@@ -10,8 +11,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-gray-600">
-        <DrawerHeader />
-        {children}
+        <Providers>
+          <DrawerHeader />
+          {children}
+        </Providers>
       </body>
     </html>
   );

@@ -1,38 +1,56 @@
+"use client";
 import { Flow } from "@/interfaces/flow.interface";
-import { List, ListItem, ListItemButton, ListSubheader } from "@mui/joy";
 import { FC } from "react";
-
+import { DataGrid, GridActionsCellItem, GridColDef } from "@mui/x-data-grid";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 export const FlowList: FC<{
   flows: Flow[];
 }> = ({ flows }) => {
+  const columns: GridColDef<(typeof flows)[number]>[] = [
+    { field: "id", headerName: "ID", width: 90 },
+    {
+      field: "createdAt",
+      headerName: "Created At",
+      width: 150,
+    },
+    {
+      field: "updatedAt",
+      headerName: "Updated At",
+      width: 150,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 110,
+      editable: true,
+    },
+    {
+      field: "actions",
+      width: 80,
+      headerName: "Actions",
+      renderCell: (params) => {
+        return (
+          <GridActionsCellItem
+            icon={<RemoveRedEyeIcon />}
+            label="View"
+            onClick={() => {
+              window.location.href = `/flow/${params.id}`;
+            }}
+          />
+        );
+      },
+    },
+  ];
   return (
-    <div>
-      <List
-        variant="outlined"
-        size="sm"
-        sx={{ width: 200, borderRadius: "sm" }}
-      >
-        <ListItem nested>
-          <ListSubheader>Active Flows</ListSubheader>
-          <List>
-            {flows.map((flow) => (
-              <ListItem key={flow.id}>
-                <ListItemButton component="a" href={`/flow/${flow.id}`}>
-                  {flow.name}
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </ListItem>
-        <ListItem nested>
-          <ListSubheader>Archived Flows</ListSubheader>
-          <List>
-            <ListItem>
-              <ListItemButton>Subitem 1</ListItemButton>
-            </ListItem>
-          </List>
-        </ListItem>
-      </List>
-    </div>
+    <DataGrid
+      rows={flows}
+      columns={columns}
+      getRowId={(row) => row.id}
+      initialState={{
+        sorting: {
+          sortModel: [{ field: "name", sort: "asc" }],
+        },
+      }}
+    />
   );
 };

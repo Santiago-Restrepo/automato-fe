@@ -9,11 +9,11 @@ import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import Sheet from "@mui/joy/Sheet";
 import {
+  Breadcrumbs,
   Link,
   ListItemButton,
   ListItemDecorator,
   Stack,
-  Typography,
 } from "@mui/joy";
 import Home from "@mui/icons-material/Home";
 import AirIcon from "@mui/icons-material/Air";
@@ -60,17 +60,14 @@ export default function DrawerHeader() {
           color="neutral"
           startDecorator={<TuneIcon />}
           onClick={() => setOpen(true)}
-        >
-          Open Menu
-        </Button>
-        <Typography level="body-md" noWrap>
-          {breadcrumbs.map((breadcrumb, index) => (
-            <Link key={index} href={breadcrumb.path} underline="none" mx={0.5}>
-              {breadcrumb.label}
-              {index < breadcrumbs.length - 1 && " >"}
+        ></Button>
+        <Breadcrumbs aria-label="breadcrumbs">
+          {breadcrumbs.map((item) => (
+            <Link key={item.path} color="neutral" href={item.path}>
+              {item.label}
             </Link>
           ))}
-        </Typography>
+        </Breadcrumbs>
       </Stack>
       <Drawer
         size="sm"
