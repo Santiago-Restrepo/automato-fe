@@ -1,6 +1,6 @@
 "use client";
 import { Step } from "@/interfaces/step.interface";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { StepCard } from "./step-card";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -24,8 +24,7 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     initialData: [],
     enabled: !!flowId,
   });
-  const { steps, setSteps, updateStep } = useStepStore((s) => s);
-  const [selectedStep, setSelectedStep] = useState<Step | null>(null);
+  const { steps, selectStep, setSteps, updateStep } = useStepStore((s) => s);
 
   // Move card logic for React DnD
   const moveCard = useCallback(
@@ -49,7 +48,7 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
         id={step.id}
         text={step.functionBlock?.name}
         moveCard={moveCard}
-        onClick={() => setSelectedStep(step)}
+        onClick={() => selectStep(step)}
       />
     ),
     [moveCard]
@@ -58,7 +57,7 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
   // Update step when details change
   const onStepChange = (step: Step | null) => {
     if (step) updateStep(step);
-    setSelectedStep(step);
+    selectStep(step);
   };
 
   // Initialize steps from `stepsData`
@@ -105,11 +104,7 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
           <div>{steps.map((step, index) => renderCard(step, index))}</div>
         </DndProvider>
       </Box>
-      <StepDetails
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        onStepChange={onStepChange}
-      />
+      <StepDetails onStepChange={onStepChange} />
     </Stack>
   );
 };

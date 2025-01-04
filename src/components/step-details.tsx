@@ -1,7 +1,5 @@
 import { Step } from "@/interfaces/step.interface";
-import { getFunctions } from "@/services/function.service";
 import {
-  Autocomplete,
   Box,
   DialogTitle,
   Divider,
@@ -10,23 +8,19 @@ import {
   Sheet,
   Typography,
 } from "@mui/joy";
-import { useQuery } from "@tanstack/react-query";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
+import { FunctionAutoComplete } from "./function-autocomplete";
+import { useStepStore } from "@/app/hooks/use-step-store";
+import { StepParameterList } from "./step-parameter-list";
 
 export const StepDetails: FC<{
-  selectedStep: Step | null;
-  setSelectedStep: Dispatch<SetStateAction<Step | null>>;
   onStepChange: (step: Step | null) => void;
-}> = ({ selectedStep, onStepChange, setSelectedStep }) => {
+}> = ({ onStepChange }) => {
   const [open, setOpen] = useState(false);
-  const [functionAutocompleteOpen, setFunctionAutocompleteOpen] =
-    useState(false);
-  const { data: options, isLoading: loading } = useQuery({
-    queryKey: ["functions"],
-    queryFn: getFunctions,
-    initialData: [],
-  });
-
+  const { steps, selectStep } = useStepStore((s) => s);
+  const selectedStep = useMemo(() => {
+    return steps.find((s) => s.isSelected) || null;
+  }, [steps]);
   useEffect(() => {
     if (selectedStep) {
       setOpen(true);
@@ -38,8 +32,9 @@ export const StepDetails: FC<{
         open={open}
         onClose={() => {
           setOpen(false);
-          setSelectedStep(null);
+          selectStep(null);
         }}
+        size="lg"
         variant="plain"
         anchor="right"
         slotProps={{
@@ -71,34 +66,12 @@ export const StepDetails: FC<{
               : "No description"}
           </Typography>
           <Divider />
-          <Box>
-            <Autocomplete
-              sx={{ width: 300 }}
-              placeholder="Select a function"
-              open={functionAutocompleteOpen}
-              onOpen={() => {
-                setFunctionAutocompleteOpen(true);
-              }}
-              onClose={() => {
-                setFunctionAutocompleteOpen(false);
-              }}
-              isOptionEqualToValue={(option, value) =>
-                option.name === value.name
-              }
-              getOptionLabel={(option) => option.name}
-              options={options}
-              value={selectedStep?.functionBlock || null}
-              onChange={(_event, newValue) => {
-                if (!newValue || !selectedStep) return;
-                const newStep: Step = {
-                  ...selectedStep,
-                  functionBlock: newValue,
-                };
-                onStepChange(newStep);
-              }}
-              loading={loading}
-            />
-          </Box>
+          <FunctionAutoComplete
+            onStepChange={onStepChange}
+            selectedStep={selectedStep}
+          />
+          <Divider />
+          <StepParameterList />
         </Sheet>
       </Drawer>
     </Box>

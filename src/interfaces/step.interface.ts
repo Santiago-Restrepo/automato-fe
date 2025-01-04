@@ -7,4 +7,5 @@ export interface Step {
   order: number;
   functionBlock: FunctionBlock | null;
   parameters: StepParameter[];
+  isSelected?: boolean;
 }
