@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import EditIcon from "@mui/icons-material/Edit";
 export interface StepCardProps {
-  id: number;
+  id: string;
   text?: string | null;
   index: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;

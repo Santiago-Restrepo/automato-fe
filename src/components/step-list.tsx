@@ -4,18 +4,13 @@ import { FC, useCallback, useEffect } from "react";
 import { StepCard } from "./step-card";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { Button, CircularProgress, Divider, Stack, Typography } from "@mui/joy";
 import { StepDetails } from "./step-details";
 import { useStepStore } from "@/app/hooks/use-step-store";
 import { useQuery } from "@tanstack/react-query";
 import { getFlowSteps } from "@/services/step.service";
+import AddIcon from "@mui/icons-material/Add";
+import { v4 as uuidv4 } from "uuid";
 
 export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
   const { data: stepsData, isFetching } = useQuery({
@@ -24,7 +19,9 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     initialData: [],
     enabled: !!flowId,
   });
-  const { steps, selectStep, setSteps, updateStep } = useStepStore((s) => s);
+  const { steps, selectStep, setSteps, updateStep, addStep } = useStepStore(
+    (s) => s
+  );
 
   // Move card logic for React DnD
   const moveCard = useCallback(
@@ -60,6 +57,16 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     selectStep(step);
   };
 
+  const onStepAdd = () => {
+    addStep({
+      id: uuidv4(),
+      description: null,
+      order: steps.length,
+      functionBlock: null,
+      parameters: [],
+    });
+  };
+
   const onSave = () => {
     console.log("Saving steps...");
     console.log(steps);
@@ -90,7 +97,9 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
         <Button onClick={onSave}>Save</Button>
       </Stack>
       <Divider sx={{ my: 1 }} />
-      <Box
+      <Stack
+        direction="column"
+        justifyContent="space-between"
         sx={{
           overflow: "auto",
           px: 30,
@@ -108,7 +117,10 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
         <DndProvider backend={HTML5Backend}>
           <div>{steps.map((step, index) => renderCard(step, index))}</div>
         </DndProvider>
-      </Box>
+        <Button onClick={onStepAdd}>
+          <AddIcon />
+        </Button>
+      </Stack>
       <StepDetails onStepChange={onStepChange} />
     </Stack>
   );

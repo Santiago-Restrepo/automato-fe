@@ -3,8 +3,8 @@ import { FunctionParameter } from "./function-parameter.interface";
 export interface StepParameter {
   readonly id: string;
   value: string;
-  inputStepId: number;
-  outputStepId: number | null;
+  inputStepId: string;
+  outputStepId: string | null;
   functionParameterId: number;
   functionParameter: FunctionParameter;
 }
