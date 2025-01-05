@@ -1,5 +1,6 @@
 import { Step } from "@/interfaces/step.interface";
 import { getFunctions } from "@/services/function.service";
+import { functionParameterToStepParameter } from "@/utils/function-parameter-to-step-parameter";
 import { Autocomplete, Box, Typography } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
 import { FC, useState } from "react";
@@ -36,8 +37,13 @@ export const FunctionAutoComplete: FC<{
         value={selectedStep?.functionBlock || null}
         onChange={(_event, newValue) => {
           if (!newValue || !selectedStep) return;
+          const newParameters = newValue.parameters.map((p) => {
+            return functionParameterToStepParameter(p, selectedStep);
+          });
+
           const newStep: Step = {
             ...selectedStep,
+            parameters: newParameters,
             functionBlock: newValue,
           };
           onStepChange(newStep);

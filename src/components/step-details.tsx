@@ -11,7 +11,7 @@ import {
 import { FC, useEffect, useMemo, useState } from "react";
 import { FunctionAutoComplete } from "./function-autocomplete";
 import { useStepStore } from "@/app/hooks/use-step-store";
-import { StepParameterList } from "./step-parameter-list";
+import { ParameterList } from "./parameter-list";
 
 export const StepDetails: FC<{
   onStepChange: (step: Step | null) => void;
@@ -71,7 +71,7 @@ export const StepDetails: FC<{
             selectedStep={selectedStep}
           />
           <Divider />
-          <StepParameterList />
+          <ParameterList />
         </Sheet>
       </Drawer>
     </Box>

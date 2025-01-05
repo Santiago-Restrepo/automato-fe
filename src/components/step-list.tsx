@@ -60,6 +60,11 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     selectStep(step);
   };
 
+  const onSave = () => {
+    console.log("Saving steps...");
+    console.log(steps);
+  };
+
   // Initialize steps from `stepsData`
   useEffect(() => {
     if (stepsData) {
@@ -82,7 +87,7 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     <Stack my={2}>
       <Stack direction="row" justifyContent="space-between">
         <Typography level="title-lg">Steps List</Typography>
-        <Button>Save</Button>
+        <Button onClick={onSave}>Save</Button>
       </Stack>
       <Divider sx={{ my: 1 }} />
       <Box
