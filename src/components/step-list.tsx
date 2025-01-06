@@ -19,9 +19,8 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     initialData: [],
     enabled: !!flowId,
   });
-  const { steps, selectStep, setSteps, updateStep, addStep } = useStepStore(
-    (s) => s
-  );
+  const { steps, selectStep, setSteps, updateStep, addStep, deleteStep } =
+    useStepStore((s) => s);
 
   // Move card logic for React DnD
   const moveCard = useCallback(
@@ -41,11 +40,11 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     (step: Step, index: number) => (
       <StepCard
         key={step.id}
+        step={step}
         index={index}
-        id={step.id}
-        text={step.functionBlock?.name}
         moveCard={moveCard}
         onClick={() => selectStep(step)}
+        onDelete={onStepDelete}
       />
     ),
     [moveCard]
@@ -72,6 +71,10 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
     console.log(steps);
   };
 
+  const onStepDelete = (step: Step) => {
+    deleteStep(step);
+  };
+
   // Initialize steps from `stepsData`
   useEffect(() => {
     if (stepsData) {
@@ -85,10 +88,6 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
         <CircularProgress size="md" />
       </Stack>
     );
-  // If no steps are present
-  if (!steps || steps.length === 0) {
-    return <Typography color="danger">Flow has no steps</Typography>;
-  }
 
   return (
     <Stack my={2}>
@@ -103,6 +102,7 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
         sx={{
           overflow: "auto",
           px: 30,
+          minWidth: 600,
           py: 5,
           mx: "auto",
           backgroundColor: "#f5f5f5",

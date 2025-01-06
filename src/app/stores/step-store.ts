@@ -12,6 +12,7 @@ export interface StepState extends StepProps {
   addStep: (step: Step) => void;
   setSteps: (steps: Step[] | ((prevSteps: Step[]) => Step[])) => void;
   selectStep: (step: Step | null) => void;
+  deleteStep: (step: Step) => void;
 }
 
 export type StepStore = ReturnType<typeof createStepStore>;
@@ -64,6 +65,11 @@ export const createStepStore = (initProps?: Partial<StepProps>) => {
           }
           return s;
         }),
+      }));
+    },
+    deleteStep(step) {
+      set((state) => ({
+        steps: state.steps.filter((s) => s.id !== step.id),
       }));
     },
   }));

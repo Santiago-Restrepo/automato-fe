@@ -4,12 +4,14 @@ import type { FC, MouseEventHandler } from "react";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import EditIcon from "@mui/icons-material/Edit";
+import { Step } from "@/interfaces/step.interface";
+import { GridDeleteIcon } from "@mui/x-data-grid";
 export interface StepCardProps {
-  id: string;
-  text?: string | null;
+  step: Step;
   index: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
   onClick: MouseEventHandler<HTMLAnchorElement> | undefined;
+  onDelete: (step: Step) => void;
 }
 
 interface DragItem {
@@ -23,11 +25,11 @@ export const ItemTypes = {
 };
 
 export const StepCard: FC<StepCardProps> = ({
-  id,
-  text,
+  step,
   index,
   moveCard,
   onClick,
+  onDelete,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -91,7 +93,7 @@ export const StepCard: FC<StepCardProps> = ({
   const [_2, drag] = useDrag({
     type: ItemTypes.CARD,
     item: () => {
-      return { id, index };
+      return { id: step.id, index };
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     collect: (monitor: any) => ({
@@ -109,12 +111,22 @@ export const StepCard: FC<StepCardProps> = ({
     >
       <CardContent>
         <Typography textColor="success.darkChannel" sx={{ fontWeight: "md" }}>
-          Step {id}
+          Step {step.id}
         </Typography>
-        <Typography level="body-sm">{text}</Typography>
+        <Typography level="body-sm">{step.functionBlock?.name}</Typography>
       </CardContent>
       <Button onClick={onClick} variant="soft" size="sm">
         <EditIcon />
+      </Button>
+      <Button
+        onClick={() => {
+          onDelete(step);
+        }}
+        variant="outlined"
+        color="danger"
+        size="sm"
+      >
+        <GridDeleteIcon />
       </Button>
       <CardOverflow
         variant="soft"

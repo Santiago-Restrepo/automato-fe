@@ -1,9 +1,10 @@
+import { FunctionBlock } from "@/interfaces/function-block-interface.";
 import { Step } from "@/interfaces/step.interface";
 import { getFunctions } from "@/services/function.service";
 import { functionParameterToStepParameter } from "@/utils/function-parameter-to-step-parameter";
 import { Autocomplete, Box, Typography } from "@mui/joy";
 import { useQuery } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 
 export const FunctionAutoComplete: FC<{
   selectedStep: Step | null;
@@ -16,6 +17,22 @@ export const FunctionAutoComplete: FC<{
     queryFn: getFunctions,
     initialData: [],
   });
+  const onChange = (
+    _event: SyntheticEvent<Element, Event>,
+    newValue: FunctionBlock | null
+  ) => {
+    if (!newValue || !selectedStep) return;
+    const newParameters = newValue.parameters.map((p) => {
+      return functionParameterToStepParameter(p, selectedStep);
+    });
+
+    const newStep: Step = {
+      ...selectedStep,
+      parameters: newParameters,
+      functionBlock: newValue,
+    };
+    onStepChange(newStep);
+  };
   return (
     <Box>
       <Typography level="body-sm" fontWeight="bold" mb={1}>
@@ -35,19 +52,7 @@ export const FunctionAutoComplete: FC<{
         getOptionLabel={(option) => option.name}
         options={options}
         value={selectedStep?.functionBlock || null}
-        onChange={(_event, newValue) => {
-          if (!newValue || !selectedStep) return;
-          const newParameters = newValue.parameters.map((p) => {
-            return functionParameterToStepParameter(p, selectedStep);
-          });
-
-          const newStep: Step = {
-            ...selectedStep,
-            parameters: newParameters,
-            functionBlock: newValue,
-          };
-          onStepChange(newStep);
-        }}
+        onChange={onChange}
         loading={loading}
       />
     </Box>
