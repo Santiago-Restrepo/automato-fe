@@ -29,6 +29,7 @@ export const FunctionAutoComplete: FC<{
     const newStep: Step = {
       ...selectedStep,
       parameters: newParameters,
+      functionId: newValue.id,
       functionBlock: newValue,
     };
     onStepChange(newStep);

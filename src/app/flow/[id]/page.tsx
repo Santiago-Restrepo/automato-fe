@@ -6,5 +6,5 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const flowId = (await params).id;
-  return <StepList flowId={Number(flowId)} />;
+  return <StepList flowId={flowId} />;
 }

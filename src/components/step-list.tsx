@@ -11,8 +11,9 @@ import { useQuery } from "@tanstack/react-query";
 import { getFlowSteps } from "@/services/step.service";
 import AddIcon from "@mui/icons-material/Add";
 import { v4 as uuidv4 } from "uuid";
+import { updateFlowSteps } from "@/services/flow.service";
 
-export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
+export const StepList: FC<{ flowId: string }> = ({ flowId }) => {
   const { data: stepsData, isFetching } = useQuery({
     queryKey: ["flow", flowId, "steps"],
     queryFn: () => getFlowSteps(flowId),
@@ -29,7 +30,10 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
         const updatedSteps = [...prevSteps];
         const [draggedStep] = updatedSteps.splice(dragIndex, 1);
         updatedSteps.splice(hoverIndex, 0, draggedStep);
-        return updatedSteps;
+        return updatedSteps.map((step, index) => ({
+          ...step,
+          order: index,
+        }));
       });
     },
     [setSteps]
@@ -59,16 +63,17 @@ export const StepList: FC<{ flowId: number }> = ({ flowId }) => {
   const onStepAdd = () => {
     addStep({
       id: uuidv4(),
+      flowId,
       description: null,
       order: steps.length,
       functionBlock: null,
+      functionId: null,
       parameters: [],
     });
   };
 
   const onSave = () => {
-    console.log("Saving steps...");
-    console.log(steps);
+    return updateFlowSteps(flowId, steps);
   };
 
   const onStepDelete = (step: Step) => {
