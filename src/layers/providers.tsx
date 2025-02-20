@@ -1,7 +1,10 @@
-import { createStepStore } from "@/app/stores/step-store";
+import { createStepStore } from "@/stores/step-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRef } from "react";
 import { StepsContext } from "./step-context";
+import { HeroUIProvider, ToastProvider } from "@heroui/react";
+import { SessionProvider } from "next-auth/react";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -12,8 +15,15 @@ const queryClient = new QueryClient({
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const store = useRef(createStepStore()).current;
   return (
-    <QueryClientProvider client={queryClient}>
-      <StepsContext.Provider value={store}>{children}</StepsContext.Provider>
-    </QueryClientProvider>
+    <SessionProvider>
+      <HeroUIProvider>
+        <QueryClientProvider client={queryClient}>
+          <StepsContext.Provider value={store}>
+            <ToastProvider />
+            {children}
+          </StepsContext.Provider>
+        </QueryClientProvider>
+      </HeroUIProvider>
+    </SessionProvider>
   );
 };

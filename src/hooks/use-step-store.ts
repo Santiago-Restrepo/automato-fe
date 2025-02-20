@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StepState } from "../stores/step-store";
+import { StepState } from "../../stores/step-store";
 import { StepsContext } from "@/layers/step-context";
 import { useStore } from "zustand";
 

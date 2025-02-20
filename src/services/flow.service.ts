@@ -1,6 +1,6 @@
 import { Flow } from "@/interfaces/flow.interface";
 import { Step } from "@/interfaces/step.interface";
-import { api } from "@/layers/api";
+import api from "@/layers/api";
 
 export const getAllFlows = async () => {
   const { data } = await api.get<Flow[]>("flow");
