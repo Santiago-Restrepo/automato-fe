@@ -1,9 +1,7 @@
-"use client";
-
-import { useSession } from "next-auth/react";
+import { auth } from "@/auth";
 import { FC } from "react";
 
-export const Summary: FC = () => {
-  const session = useSession();
+export const Summary: FC = async () => {
+  const session = await auth();
   return <>{JSON.stringify(session)}</>;
 };
