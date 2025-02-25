@@ -31,7 +31,7 @@ export default function LoginForm() {
         color: "danger",
       });
     } else {
-      router.push("/");
+      router.push("/dashboard");
     }
   };
   return (
