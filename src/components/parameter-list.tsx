@@ -1,7 +1,6 @@
-import { Box, Typography } from "@mui/joy";
 import { FC, useMemo } from "react";
-import { StepParameterList } from "./step-parameter-list";
-import { useStepStore } from "@/app/hooks/use-step-store";
+import { StepParameterList } from "../app/(admin)/flows/[id]/_components/StepParameterList";
+import { useStepStore } from "@/hooks/use-step-store";
 
 export const ParameterList: FC = () => {
   const { steps } = useStepStore((s) => s);
@@ -15,14 +14,12 @@ export const ParameterList: FC = () => {
   }, [steps, selectedStep]);
 
   return (
-    <Box>
-      <Typography level="body-sm" fontWeight="bold" mb={1}>
-        Parameters
-      </Typography>
-      <StepParameterList
+    <div>
+      <h1>Parameters</h1>
+      {/* <StepParameterList
         options={options}
         stepParameters={selectedStep?.parameters || []}
-      />
-    </Box>
+      /> */}
+    </div>
   );
 };

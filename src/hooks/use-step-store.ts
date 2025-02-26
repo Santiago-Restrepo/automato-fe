@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { StepState } from "../../stores/step-store";
 import { StepsContext } from "@/layers/step-context";
 import { useStore } from "zustand";
+import { StepState } from "@/stores/step-store";
 
 export function useStepStore<T>(selector: (state: StepState) => T): T {
   const store = useContext(StepsContext);

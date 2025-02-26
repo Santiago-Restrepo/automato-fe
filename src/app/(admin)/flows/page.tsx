@@ -1,4 +1,4 @@
-import { FlowList } from "@/components/flow-list";
+import { FlowList } from "@/app/(admin)/flows/_components/FlowList";
 import { getAllFlows } from "@/services/flow.service";
 
 export default async function FlowsPage() {

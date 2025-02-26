@@ -1,17 +1,8 @@
 import { Step } from "@/interfaces/step.interface";
-import {
-  Box,
-  DialogTitle,
-  Divider,
-  Drawer,
-  ModalClose,
-  Sheet,
-  Typography,
-} from "@mui/joy";
 import { FC, useEffect, useMemo, useState } from "react";
 import { FunctionAutoComplete } from "./function-autocomplete";
-import { useStepStore } from "@/app/hooks/use-step-store";
 import { ParameterList } from "./parameter-list";
+import { useStepStore } from "@/hooks/use-step-store";
 
 export const StepDetails: FC<{
   onStepChange: (step: Step | null) => void;
@@ -27,7 +18,7 @@ export const StepDetails: FC<{
     }
   }, [selectedStep]);
   return (
-    <Box>
+    <div>
       <Drawer
         open={open}
         onClose={() => {
@@ -68,12 +59,12 @@ export const StepDetails: FC<{
           <Divider />
           <FunctionAutoComplete
             onStepChange={onStepChange}
-            selectedStep={selectedStep}
+            step={selectedStep}
           />
           <Divider />
           <ParameterList />
         </Sheet>
       </Drawer>
-    </Box>
+    </div>
   );
 };

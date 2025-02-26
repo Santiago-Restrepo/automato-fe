@@ -24,15 +24,15 @@ export const Header: FC = () => {
     },
     {
       name: "Flows",
-      url: "flows",
+      url: "/flows",
     },
     {
       name: "Functions",
-      url: "functions",
+      url: "/functions",
     },
     {
       name: "Settings",
-      url: "settings",
+      url: "/settings",
     },
   ];
 
@@ -44,7 +44,12 @@ export const Header: FC = () => {
   };
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} shouldHideOnScroll maxWidth="full">
+    <Navbar
+      onMenuOpenChange={setIsMenuOpen}
+      shouldHideOnScroll
+      maxWidth="full"
+      className="bg-gray-100 border-b border-gray-200"
+    >
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
