@@ -1,3 +1,4 @@
+"use client";
 import { createStepStore } from "@/stores/step-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useRef } from "react";

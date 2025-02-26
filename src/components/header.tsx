@@ -12,13 +12,16 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@heroui/react";
-import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 
 export const Header: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
+    {
+      name: "Home",
+      url: "/dashboard",
+    },
     {
       name: "Flows",
       url: "flows",
@@ -34,11 +37,14 @@ export const Header: FC = () => {
   ];
 
   const onPress = () => {
-    signOut();
+    signOut({
+      redirect: true,
+      redirectTo: "/login",
+    });
   };
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} shouldHideOnScroll>
+    <Navbar onMenuOpenChange={setIsMenuOpen} shouldHideOnScroll maxWidth="full">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}

@@ -1,4 +1,3 @@
-"use client";
 import { Providers } from "@/layers/providers";
 import "../styles/globals.css";
 

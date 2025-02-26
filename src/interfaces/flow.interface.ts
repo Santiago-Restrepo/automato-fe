@@ -2,6 +2,8 @@ import { Step } from "./step.interface";
 
 export interface Flow {
   readonly id: number;
-  name: string | null;
+  readonly createdAt: string;
+  name: string;
+  description: string | null;
   steps?: Step[] | null;
 }

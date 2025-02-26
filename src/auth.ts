@@ -6,6 +6,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       access_token: string;
+      username: string;
     } & DefaultSession["user"];
   }
 }
@@ -44,6 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const user = params.user as any;
       if (user) {
         token.access_token = user.access_token as string;
+        token.username = user.username as string;
       }
       return token;
     },
