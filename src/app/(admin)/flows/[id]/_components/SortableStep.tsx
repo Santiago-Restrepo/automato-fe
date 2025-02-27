@@ -1,17 +1,15 @@
 import { Step } from "@/interfaces/step.interface";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Accordion, AccordionItem } from "@heroui/react";
-import { Menu } from "lucide-react";
+import { Menu, Settings2 } from "lucide-react";
 import { FC } from "react";
-import { StepParameterList } from "./StepParameterList";
-import { FunctionAutoComplete } from "@/components/function-autocomplete";
 import { FunctionBlock } from "@/interfaces/function-block-interface.";
+import { Button } from "@heroui/react";
 
 export const SortableStep: FC<{
   step: Step;
-  functionBlocks: FunctionBlock[];
-}> = ({ step, functionBlocks }) => {
+  onSelectStep: (step: Step) => void;
+}> = ({ step, onSelectStep }) => {
   const {
     attributes,
     listeners,
@@ -42,25 +40,14 @@ export const SortableStep: FC<{
           <small className="text-xs text-gray-500">
             {step.description || "No description"}
           </small>
-          <div className="flex gap-3 w-full mt-2">
-            <div className="w-1/3">
-              <FunctionAutoComplete
-                step={step}
-                functionBlocks={functionBlocks}
-              />
-            </div>
-            <div className="w-2/3 bg-gray-50 rounded-lg">
-              <Accordion variant="light" isCompact>
-                <AccordionItem key="1" subtitle="Parameters">
-                  <StepParameterList
-                    stepParameters={step.parameters}
-                    steps={[step]}
-                  />
-                </AccordionItem>
-              </Accordion>
-            </div>
-          </div>
         </div>
+        <Button
+          variant="ghost"
+          color="secondary"
+          onPress={() => onSelectStep(step)}
+        >
+          <Settings2 />
+        </Button>
       </div>
     </div>
   );

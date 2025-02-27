@@ -7,7 +7,12 @@ export const getAllFlows = async () => {
   return data;
 };
 
-export const updateFlowSteps = async (flowId: string, steps: Step[]) => {
-  const { data } = await api.put<Step[]>(`flow/${flowId}/steps`, steps);
+export const getFlow = async (flowId: string) => {
+  const { data } = await api.get<Flow>(`flow/${flowId}`);
   return data;
+};
+
+export const updateFlowSteps = async (flowId: string, steps: Step[]) => {
+  const { data, status } = await api.put<Step[]>(`flow/${flowId}/steps`, steps);
+  return { status, data };
 };

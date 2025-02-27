@@ -5,10 +5,10 @@ import { functionParameterToStepParameter } from "@/utils/function-parameter-to-
 import { Autocomplete, AutocompleteItem } from "@heroui/react";
 import { FC, Key, useMemo } from "react";
 
-export const FunctionAutoComplete: FC<{
-  step: Step;
+export const FunctionAutocomplete: FC<{
+  selectedStep: Step;
   functionBlocks: FunctionBlock[];
-}> = ({ step, functionBlocks }) => {
+}> = ({ selectedStep, functionBlocks }) => {
   const { updateStep } = useStepStore((s) => s);
 
   const items = useMemo(() => {
@@ -20,16 +20,18 @@ export const FunctionAutoComplete: FC<{
     });
   }, [functionBlocks]);
 
-  const onChange = (key: Key | null) => {
-    if (!key) return;
-    const newValue = functionBlocks.find((fb) => fb.id === key);
+  const onChange = (selectedFunctionId: Key | null) => {
+    if (!selectedFunctionId) return;
+    const newValue = functionBlocks.find(
+      (fb) => fb.id === Number(selectedFunctionId)
+    );
     if (!newValue) return;
     const newParameters = newValue.parameters.map((p) => {
-      return functionParameterToStepParameter(p, step);
+      return functionParameterToStepParameter(p, selectedStep);
     });
 
     const newStep: Step = {
-      ...step,
+      ...selectedStep,
       parameters: newParameters,
       functionId: newValue.id,
       functionBlock: newValue,
@@ -41,7 +43,8 @@ export const FunctionAutoComplete: FC<{
       <Autocomplete
         placeholder="Select a function"
         items={items}
-        selectedKey={step.functionId}
+        selectedKey={String(selectedStep.functionId)}
+        inputValue={selectedStep.functionBlock?.name}
         onSelectionChange={onChange}
       >
         {items.map((item) => (
