@@ -26,7 +26,7 @@ export const SortableStep: FC<{
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="p-3">
+    <div ref={setNodeRef} style={style} className="p-1">
       <div
         className={`flex items-center gap-3 bg-white rounded-lg border p-4 ${
           isDragging ? "shadow-lg" : "shadow-sm"
@@ -37,7 +37,7 @@ export const SortableStep: FC<{
         </button>
 
         <div className="w-full">
-          <h4 className="text-medium  font-medium">{step.id}</h4>
+          <h4 className="text-medium  font-medium">{step.name}</h4>
           <small className="text-xs text-gray-500">
             {step.description || "No description"}
           </small>

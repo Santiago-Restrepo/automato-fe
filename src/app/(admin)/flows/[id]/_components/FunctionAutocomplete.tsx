@@ -41,6 +41,8 @@ export const FunctionAutocomplete: FC<{
   return (
     <div>
       <Autocomplete
+        label="Select a function"
+        labelPlacement="outside"
         placeholder="Select a function"
         items={items}
         selectedKey={String(selectedStep.functionId)}

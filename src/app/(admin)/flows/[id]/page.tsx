@@ -1,5 +1,5 @@
 import { getFlowSteps } from "@/services/step.service";
-import { FlowDetail } from "./_components/FlowDetail";
+import { FlowDetails } from "./_components/FlowDetails";
 import { getFunctionBlocks } from "@/services/function.service";
 import { getFlow } from "@/services/flow.service";
 
@@ -14,7 +14,7 @@ export default async function Page({
   const steps = await getFlowSteps(flowId);
   const functionBlocks = await getFunctionBlocks();
   return (
-    <FlowDetail
+    <FlowDetails
       flow={flow}
       initialSteps={steps}
       functionBlocks={functionBlocks}

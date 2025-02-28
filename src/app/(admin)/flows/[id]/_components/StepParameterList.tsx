@@ -12,12 +12,12 @@ export const StepParameterList: FC<{
   const { updateStepParameter } = useStepStore((s) => s);
   const items = useMemo(() => {
     return steps.map((step) => ({
-      label: step.id,
+      label: step.name,
       id: step.id,
     }));
   }, [steps]);
   return (
-    <ul>
+    <ul className="flex flex-col gap-3">
       {stepParameters.map((parameter, index) => (
         <li key={index}>
           <div className="flex gap-3">

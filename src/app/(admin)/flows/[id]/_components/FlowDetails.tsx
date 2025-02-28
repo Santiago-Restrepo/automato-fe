@@ -30,12 +30,12 @@ import { useStepStore } from "@/hooks/use-step-store";
 import { v4 as uuidv4 } from "uuid";
 import { SortableStep } from "./SortableStep";
 import { FunctionBlock } from "@/interfaces/function-block-interface.";
-import { StepDetailDrawer } from "./StepDetailDrawer";
+import { UpdateStepDetailDrawer } from "./UpdateStepDetailDrawer";
 import { Flow } from "@/interfaces/flow.interface";
 import { saveFlowSteps } from "../_actions/saveFlowSteps.action";
 import { redirect } from "next/navigation";
 
-export const FlowDetail: FC<{
+export const FlowDetails: FC<{
   flow: Flow;
   initialSteps: Step[];
   functionBlocks: FunctionBlock[];
@@ -74,6 +74,7 @@ export const FlowDetail: FC<{
     addStep({
       id: uuidv4(),
       flowId: flow.id,
+      name: `Step ${steps.length + 1}`,
       description: null,
       order: steps.length,
       functionBlock: null,
@@ -98,7 +99,7 @@ export const FlowDetail: FC<{
         title: "Flow saved",
         color: "success",
       });
-      redirect("/flows");
+      redirect(`/flows/${flow.id}`);
     } else {
       addToast({
         title: "Error saving flow",
@@ -134,8 +135,8 @@ export const FlowDetail: FC<{
             </Button>
           </div>
         </CardHeader>
-        <CardBody>
-          <StepDetailDrawer
+        <CardBody className="overflow-hidden">
+          <UpdateStepDetailDrawer
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             functionBlocks={functionBlocks}
