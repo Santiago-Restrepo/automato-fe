@@ -12,6 +12,16 @@ export const getFlow = async (flowId: string) => {
   return data;
 };
 
+export const createFlow = async (flow: Flow) => {
+  const { data, status } = await api.post<Flow>("flow", flow);
+  return { status, data };
+};
+
+export const updateFlow = async (flowId: string, flow: Partial<Flow>) => {
+  const { data, status } = await api.patch<Flow>(`flow/${flowId}`, flow);
+  return { status, data };
+};
+
 export const updateFlowSteps = async (flowId: string, steps: Step[]) => {
   const { data, status } = await api.put<Step[]>(`flow/${flowId}/steps`, steps);
   return { status, data };

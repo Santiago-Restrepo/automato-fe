@@ -20,7 +20,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
       <HeroUIProvider>
         <QueryClientProvider client={queryClient}>
           <StepsContext.Provider value={store}>
-            <ToastProvider />
+            <ToastProvider placement="top-right" />
             {children}
           </StepsContext.Provider>
         </QueryClientProvider>

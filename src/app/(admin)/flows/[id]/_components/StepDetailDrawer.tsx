@@ -12,7 +12,7 @@ import { FC, useMemo } from "react";
 import { FunctionAutocomplete } from "./FunctionAutocomplete";
 import { StepParameterList } from "./StepParameterList";
 
-export const StepDetail: FC<{
+export const StepDetailDrawer: FC<{
   isOpen: boolean;
   onOpenChange?: (isOpen: boolean) => void;
   functionBlocks: FunctionBlock[];
@@ -24,7 +24,7 @@ export const StepDetail: FC<{
   return (
     <Drawer backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
       <DrawerContent>
-        {(onClose) => (
+        {() => (
           <>
             <DrawerHeader className="flex flex-col gap-1">
               <h2 className="text-medium font-semibold">Step Details</h2>

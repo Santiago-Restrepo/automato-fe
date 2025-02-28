@@ -1,15 +1,15 @@
 import { Step } from "@/interfaces/step.interface";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Menu, Settings2 } from "lucide-react";
+import { Menu, Settings2, Trash } from "lucide-react";
 import { FC } from "react";
-import { FunctionBlock } from "@/interfaces/function-block-interface.";
 import { Button } from "@heroui/react";
 
 export const SortableStep: FC<{
   step: Step;
   onSelectStep: (step: Step) => void;
-}> = ({ step, onSelectStep }) => {
+  onDeleteStep: (step: Step) => void;
+}> = ({ step, onSelectStep, onDeleteStep }) => {
   const {
     attributes,
     listeners,
@@ -28,13 +28,14 @@ export const SortableStep: FC<{
   return (
     <div ref={setNodeRef} style={style} className="p-3">
       <div
-        className={`flex items-center gap-3 bg-white rounded-lg border p-4 mb-3 ${
+        className={`flex items-center gap-3 bg-white rounded-lg border p-4 ${
           isDragging ? "shadow-lg" : "shadow-sm"
         }`}
       >
         <button className="touch-none" {...attributes} {...listeners}>
           <Menu className="h-5 w-5 text-gray-400 hover:text-gray-500" />
         </button>
+
         <div className="w-full">
           <h4 className="text-medium  font-medium">{step.id}</h4>
           <small className="text-xs text-gray-500">
@@ -43,10 +44,14 @@ export const SortableStep: FC<{
         </div>
         <Button
           variant="ghost"
-          color="secondary"
+          color="primary"
+          size="sm"
           onPress={() => onSelectStep(step)}
         >
           <Settings2 />
+        </Button>
+        <Button size="sm" color="danger" onPress={() => onDeleteStep(step)}>
+          <Trash className="h-5 w-5" />
         </Button>
       </div>
     </div>

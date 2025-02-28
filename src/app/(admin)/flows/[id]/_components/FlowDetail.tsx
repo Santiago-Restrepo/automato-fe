@@ -30,9 +30,9 @@ import { useStepStore } from "@/hooks/use-step-store";
 import { v4 as uuidv4 } from "uuid";
 import { SortableStep } from "./SortableStep";
 import { FunctionBlock } from "@/interfaces/function-block-interface.";
-import { StepDetail } from "./StepDetail";
+import { StepDetailDrawer } from "./StepDetailDrawer";
 import { Flow } from "@/interfaces/flow.interface";
-import { saveFlowSteps } from "../_actions/saveFlowSteps";
+import { saveFlowSteps } from "../_actions/saveFlowSteps.action";
 import { redirect } from "next/navigation";
 
 export const FlowDetail: FC<{
@@ -40,7 +40,9 @@ export const FlowDetail: FC<{
   initialSteps: Step[];
   functionBlocks: FunctionBlock[];
 }> = ({ flow, initialSteps, functionBlocks }) => {
-  const { steps, setSteps, addStep, selectStep } = useStepStore((s) => s);
+  const { steps, setSteps, addStep, selectStep, deleteStep } = useStepStore(
+    (s) => s
+  );
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const sensors = useSensors(
@@ -85,6 +87,10 @@ export const FlowDetail: FC<{
     selectStep(step);
   };
 
+  const onDeleteStep = (step: Step) => {
+    deleteStep(step);
+  };
+
   const onSaveFlow = async () => {
     const response = await saveFlowSteps(flow.id, steps);
     if (response.status === 200) {
@@ -114,12 +120,12 @@ export const FlowDetail: FC<{
         <CardHeader className="flex justify-between">
           <h1 className="text-xl font-semibold text-gray-900">{flow.name}</h1>
           <div className="flex gap-2">
-            <Button color="secondary" size="sm" onPress={onStepAdd}>
+            <Button color="primary" size="sm" onPress={onStepAdd}>
               <Plus className="h-4 w-4 mr-1.5" />
               Add Step
             </Button>
             <Button
-              color="secondary"
+              color="primary"
               variant="bordered"
               size="sm"
               onPress={() => onSaveFlow()}
@@ -129,7 +135,7 @@ export const FlowDetail: FC<{
           </div>
         </CardHeader>
         <CardBody>
-          <StepDetail
+          <StepDetailDrawer
             isOpen={isOpen}
             onOpenChange={onOpenChange}
             functionBlocks={functionBlocks}
@@ -148,6 +154,7 @@ export const FlowDetail: FC<{
                   key={step.id}
                   step={step}
                   onSelectStep={onSelectStep}
+                  onDeleteStep={onDeleteStep}
                 />
               ))}
             </SortableContext>
