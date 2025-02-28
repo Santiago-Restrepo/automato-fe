@@ -12,7 +12,7 @@ export const Footer: FC = () => {
     },
   ];
   return (
-    <footer className="flex justify-between items-center p-2 border-t-1.5 border-gray-200 bg-white text-gray-500 absolute bottom-0 w-full">
+    <footer className="flex justify-between items-center p-2 border-t-1.5 border-gray-200 bg-white text-gray-500 fixed bottom-0 w-full">
       <small>Copyright © 2025 Automato. All rights reserved</small>
 
       <div className="flex gap-2">

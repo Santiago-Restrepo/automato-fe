@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { Flow } from "@/interfaces/flow.interface";
-import { Play, Settings } from "lucide-react";
+import { Play, Settings, Unplug } from "lucide-react";
 import Link from "next/link";
 import { UpdateFlowDrawer } from "./UpdateFlowDrawer";
 import { CreateFlowModal } from "./CreateFlowModal";
@@ -85,6 +85,13 @@ export const FlowList: FC<{ flows: Flow[] }> = ({ flows }) => {
               >
                 <Settings />
               </Button>
+            </Tooltip>
+            <Tooltip content="Integrations">
+              <span className="text-lg text-default-500 cursor-pointer active:opacity-50">
+                <Link href={`/flows/${flow.id}/integrations`}>
+                  <Unplug />
+                </Link>
+              </span>
             </Tooltip>
           </div>
         );
