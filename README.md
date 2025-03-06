@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Automato Frontend
 
-## Getting Started
+Automato is a web-based automation platform designed for managing workflows and integrations. It provides an intuitive interface to create, edit, and delete workflows while seamlessly integrating with various services.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Workflow Management** – Easily create, edit, and delete workflows.
+- **Service Integrations** – Connect with multiple third-party services.
+- **User-Friendly Interface** – Designed for simplicity and ease of use.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Follow these steps to set up and run the project locally.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ✅ Prerequisites
 
-## Learn More
+Ensure you have the following installed:
 
-To learn more about Next.js, take a look at the following resources:
+- **Node.js** ≥ 20
+- **npm** ≥ 9 or **pnpm** ≥ 8
+- **Next.js** 15
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📥 Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/Santiago-Restrepo/automato-fe.git
+   cd automato-fe
+   ```
+2. Install dependencies:
+   ```sh
+   npm install  # or pnpm install
+   ```
+3. Create a `.env` file in the root directory and add the required environment variables:
+   ```
+    NEXT_PUBLIC_API_URL=<your_api_url>
+    AUTH_SECRET=<your_secret>
+    NEXTAUTH_URL=<your_nextauth_url>
+   ```
+4. Start the development server:
+   ```sh
+   npm run dev # or pnpm run dev
+   ```
 
-## Deploy on Vercel
+### 💻 Running the Application
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Open your browser and go to: [`http://localhost:3000`](http://localhost:3000)
+2. Log in with your credentials.
+3. Explore and manage workflows effortlessly.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Building & Deployment
+
+To build and deploy the application:
+
+1. Generate the production build:
+   ```sh
+   npm run build
+   ```
+2. Deploy the build to your preferred hosting platform (e.g., **Vercel**, **Netlify**).
+
+## 🤝 Contributing
+
+Contributions are welcome! If you’d like to contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Submit a pull request with a clear description of your changes.
